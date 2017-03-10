@@ -6,6 +6,7 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 #include<string.h>
 #include<jpeglib.h>
 #include<png.h>
@@ -381,6 +382,26 @@ int Convert_to_BMP(char *filename ,unsigned long int imagesize ,int image_width 
 	return 1;
 }
 
+void print_time ()
+{
+  struct timeval tv;
+  struct tm* ptm;
+  char time_string[40];
+  long milliseconds;
+
+  /* Obtain the time of day, and convert it to a tm struct.  */
+  gettimeofday (&tv, NULL);
+  ptm = localtime (&tv.tv_sec);
+  /* Format the date and time, down to a single second.  */
+  strftime (time_string, sizeof (time_string), "%Y-%m-%d %H:%M:%S", ptm);
+  /* Compute milliseconds from microseconds.  */
+  milliseconds = tv.tv_usec / 1000;
+  /* Print the formatted time, in seconds, followed by a decimal point
+     and the milliseconds.  */
+  printf ("%s.%03ld\n", time_string, milliseconds);
+}
+
+
 int main(char argc ,char *argv[] )
 {
 
@@ -394,6 +415,7 @@ int main(char argc ,char *argv[] )
 		printf("Usage: convert_RGB_2_BMP  [I/P RAW FILE]  [O/P BMP FILE] \n");
 		return 1;
 	}
+	
 
 	INPUT_file=fopen(argv[1] ,"rb");
 	if(INPUT_file==NULL)
@@ -405,6 +427,7 @@ int main(char argc ,char *argv[] )
 	printf("Enter the width and height of input IMAGE :WIDTH X HEIGHT\n");
 	scanf("%ld%ld",&width,&height);
 
+	print_time();
 	fseek(INPUT_file,0,SEEK_END);
 	size=ftell(INPUT_file);
 	rewind(INPUT_file);
@@ -455,5 +478,6 @@ int main(char argc ,char *argv[] )
 
 	fclose(INPUT_file);
 	free(buffer);
+print_time();
 
 }
