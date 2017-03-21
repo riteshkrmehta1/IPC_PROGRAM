@@ -206,6 +206,7 @@ int main(char argc , char **argv )
 	CPU_SET(1,&mask2);
 	CPU_SET(2,&mask3);
 	CPU_SET(3,&mask4);
+
   
 	/* four Thread creation */ 
 	if( (pthread_create(&First_thread ,NULL,cpu0 ,NULL))  ||
@@ -217,8 +218,8 @@ int main(char argc , char **argv )
 		printf("Unable to Create threads \n");
 		return -1 ;
 	}
-
 	/* setting cpu for each thread */
+
 	if ( (pthread_setaffinity_np(First_thread ,sizeof(cpu_set_t) , &mask1))   ||
 			(pthread_setaffinity_np(Second_thread ,sizeof(cpu_set_t) , &mask2)) ||
 			(pthread_setaffinity_np(Third_thread ,sizeof(cpu_set_t) , &mask3))  ||
@@ -229,16 +230,28 @@ int main(char argc , char **argv )
 		return -1;
 	}
 
-	if( (pthread_join(First_thread, NULL))   ||
-			(pthread_join(Second_thread, NULL)) ||
-			(pthread_join(Third_thread, NULL)) ||
-			(pthread_join(Forth_thread, NULL)) )
-	{
-		perror("pthread_join");
+//	if(
+ (pthread_tryjoin_np(First_thread, NULL))  ;// ||
+			(pthread_tryjoin_np(Second_thread, NULL)) ;//||
+			(pthread_tryjoin_np(Third_thread, NULL)) ;// ||
+			(pthread_tryjoin_np(Forth_thread, NULL)); // )
+/*	{
+		perror("pthread_tryjoin_np");
 		printf("Unable to join to the threads \n");
 		return -1;
 	}
-	
+*/
+/*
+	if( (pthread_join(First_thread, NULL))  ||
+			(pthread_join(Second_thread, NULL)) ||
+			(pthread_join(Third_thread, NULL)) ||
+			(pthread_join(Forth_thread, NULL))  )
+	{
+		perror("pthread_tryjoin_np");
+		printf("Unable to join to the threads \n");
+		return -1;
+	}
+*/	
 	fwrite(&Bmp_header,sizeof(HEADER),sizeof(char),output);
         fwrite(bmp_buffer, width * height * BYTESPERPIXEL, sizeof(char),output);
 
