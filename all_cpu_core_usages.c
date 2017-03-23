@@ -208,6 +208,7 @@ int main(char argc , char **argv )
 	CPU_SET(3,&mask4);
 
   
+//	print_time();	
 	/* four Thread creation */ 
 	if( (pthread_create(&First_thread ,NULL,cpu0 ,NULL))  ||
 			(pthread_create(&Second_thread ,NULL,cpu1 ,NULL)) ||
@@ -230,18 +231,22 @@ int main(char argc , char **argv )
 		return -1;
 	}
 
-//	if(
- (pthread_tryjoin_np(First_thread, NULL))  ;// ||
-			(pthread_tryjoin_np(Second_thread, NULL)) ;//||
-			(pthread_tryjoin_np(Third_thread, NULL)) ;// ||
-			(pthread_tryjoin_np(Forth_thread, NULL)); // )
-/*	{
+	    /******** PTHREAD_TRYJOIN_NP FUNCTION CALLL ************/
+/*
+	if((pthread_tryjoin_np(First_thread, NULL))  ||
+			(pthread_tryjoin_np(Second_thread, NULL)) ||
+			(pthread_tryjoin_np(Third_thread, NULL))  ||
+			(pthread_tryjoin_np(Forth_thread, NULL)) )
+	{
 		perror("pthread_tryjoin_np");
 		printf("Unable to join to the threads \n");
 		return -1;
 	}
 */
-/*
+
+            /********* PTHREAD_JOIN FUNCTION CALL **********/
+
+
 	if( (pthread_join(First_thread, NULL))  ||
 			(pthread_join(Second_thread, NULL)) ||
 			(pthread_join(Third_thread, NULL)) ||
@@ -251,7 +256,7 @@ int main(char argc , char **argv )
 		printf("Unable to join to the threads \n");
 		return -1;
 	}
-*/	
+
 	fwrite(&Bmp_header,sizeof(HEADER),sizeof(char),output);
         fwrite(bmp_buffer, width * height * BYTESPERPIXEL, sizeof(char),output);
 
