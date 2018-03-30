@@ -71,7 +71,7 @@ void * cpu2()
 
 	}
 }
-/*
+
 void * cpu3()
 {
 	int pixel ;
@@ -84,7 +84,7 @@ void * cpu3()
 
 	}
 }
-*/
+
 void print_time ()
 {
   struct timeval tv;
@@ -200,21 +200,21 @@ int main(char argc , char **argv )
 	CPU_ZERO(&mask1);  /* Clears set, so that it contains no CPUs.*/
 	CPU_ZERO(&mask2);
 	CPU_ZERO(&mask3);
-//	CPU_ZERO(&mask4);
+	CPU_ZERO(&mask4);
 
 	/* Setting Perticular cpus */
 	CPU_SET(0,&mask1);
 	CPU_SET(1,&mask2);
 	CPU_SET(2,&mask3);
-//	CPU_SET(3,&mask4);
+	CPU_SET(3,&mask4);
 
   
-//	print_time();	
+	//print_time();	
 	/* four Thread creation */ 
 	if( (pthread_create(&First_thread ,NULL,cpu0 ,NULL))  ||
 			(pthread_create(&Second_thread ,NULL,cpu1 ,NULL)) ||
-			(pthread_create(&Third_thread ,NULL,cpu2 ,NULL)) ) // ||
-	//		(pthread_create(&Forth_thread ,NULL,cpu3 ,NULL))  )
+			(pthread_create(&Third_thread ,NULL,cpu2 ,NULL))  ||
+			(pthread_create(&Forth_thread ,NULL,cpu3 ,NULL))  )
 	{
 		perror("pthread_create");
 		printf("Unable to Create threads \n");
@@ -224,8 +224,8 @@ int main(char argc , char **argv )
 
 	if ( (pthread_setaffinity_np(First_thread ,sizeof(cpu_set_t) , &mask1))   ||
 			(pthread_setaffinity_np(Second_thread ,sizeof(cpu_set_t) , &mask2)) ||
-			(pthread_setaffinity_np(Third_thread ,sizeof(cpu_set_t) , &mask3)) )// ||
-	//		(pthread_setaffinity_np(Forth_thread ,sizeof(cpu_set_t) , &mask4)) )
+			(pthread_setaffinity_np(Third_thread ,sizeof(cpu_set_t) , &mask3))  ||
+			(pthread_setaffinity_np(Forth_thread ,sizeof(cpu_set_t) , &mask4)) )
 	{
 		perror("pthread_setaffinity_np");
 		printf("Unable to provided separate cpus for separate threads \n");
@@ -243,21 +243,29 @@ int main(char argc , char **argv )
 		printf("Unable to join to the threads \n");
 		return -1;
 	}
-*/
 
+*/
             /********* PTHREAD_JOIN FUNCTION CALL **********/
 
 
 	if( (pthread_join(First_thread, NULL))  ||
 			(pthread_join(Second_thread, NULL)) ||
-			(pthread_join(Third_thread, NULL)) )// ||
-	//		(pthread_join(Forth_thread, NULL))  )
+			(pthread_join(Third_thread, NULL))  ||
+			(pthread_join(Forth_thread, NULL))  )
 	{
 		perror("pthread_tryjoin_np");
 		printf("Unable to join to the threads \n");
 		return -1;
 	}
 
+		if (CPU_ISSET(0, &mask1)) 
+			printf("thread %d is running in processor 0\n",First_thread);
+		if (CPU_ISSET(1, &mask2)) 
+			printf("thread %d is running in processor 1\n", Second_thread);
+		if (CPU_ISSET(2, &mask3)) 
+			printf("thread %d is running in processor 3\n", Third_thread);
+		if (CPU_ISSET(3, &mask4)) 
+			printf("thread %d is running in processor 4\n", Forth_thread);
 	fwrite(&Bmp_header,sizeof(HEADER),sizeof(char),output);
         fwrite(bmp_buffer, width * height * BYTESPERPIXEL, sizeof(char),output);
 

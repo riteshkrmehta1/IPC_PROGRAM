@@ -1,28 +1,25 @@
 #include<graphics.h> 
 int main()
 {
-	int gd = DETECT,gm,i= 50,j=50,radius=50;
+	int gd = DETECT,gm,i= 50,j=50,radius=50,k=50;
 int gdriver,gmode;
   int dppoints[14] = {200, 150, 300, 250, 400, 150, 425, 350, 300, 275, 150, 350, 200, 150};
   int fppoints[14] = {500, 150, 600, 250, 700, 150, 725, 350, 600, 275, 450, 350, 500, 150};
 	
   gdriver = VGA;gmode=VGAMAX;
   initgraph(&gdriver,&gmode,"");
-	for ( i=50,j=50 ; i<300 ; i=i+1)
+	for ( i=50,j=50,k=50 ; i<750 ;i++,j++,k++)
 	{
-		//		initgraph(&gd,&gm,NULL);
-		//rectangle(left, top, right, bottom);
-		//	circle(i, j, radius);
-		pieslice(i, j, 0, 360, 50);
-		//setcolor(LIGHTGREEN);
+		pieslice(i, 50, 0, 360, 50);
+		arc(i,50,0,360,50);
 		setcolor(BLUE);
-	//	pieslice(i, j, 111, 210, 50);
-		//setcolor(LIGHTRED);
-	//	setcolor(BLUE);
-	//	pieslice(i, j, 210, 360, 50);
-	//	setcolor(BLUE);
-		delay(20);
-		//getch();
+		pieslice(j, 150, 0, 360, 50);
+		arc(j,50,0,360,50);
+		setcolor(WHITE);
+		pieslice(k, 250, 0, 360, 50);
+		arc(k,50,0,360,50);
+		setcolor(RED);
+		delay(5);
 		cleardevice();
 
 
